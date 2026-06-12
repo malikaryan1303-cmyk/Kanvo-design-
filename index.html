@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Group of Institutions</title>
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase SDK (ये लाइनें जरूरी हैं डेटाबेस कनेक्ट करने के लिए) -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <h1 id="site-title">Loading...</h1> <!-- यहाँ Firebase का डेटा आएगा -->
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="content-area">
+        <p>Fetching latest updates from database...</p>
+    </main>
+
+    <!-- App Logic (यहाँ अपना Firebase का लॉजिक लिखें) -->
+    <script>
+        // अपना Firebase Config यहाँ पेस्ट करें
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // डेटा फेच करने का फंक्शन (Real-time update के लिए)
+        db.collection("settings").doc("siteData").onSnapshot((doc) => {
+            if (doc.exists) {
+                document.getElementById("site-title").innerText = doc.data().title;
+                document.getElementById("content-area").innerHTML = doc.data().content;
+            }
+        });
+    </script>
+</body>
+</html>
